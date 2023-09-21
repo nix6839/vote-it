@@ -6,6 +6,7 @@
     "module": "ESNext",
     "esModuleInterop": true,
     "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "verbatimModuleSyntax": true,
 
