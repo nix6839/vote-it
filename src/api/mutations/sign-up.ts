@@ -14,13 +14,14 @@ interface SignUpRequest {
   password: string;
 }
 
-export const signUpMutation = {
-  mutationKey: ['signUp'],
-  mutationFn(variables) {
-    return request.post('/auth/signup', variables);
-  },
-} satisfies UseMutationOptions<
+export const signUpMutation: UseMutationOptions<
   SignUpResponse,
   AxiosError<SignUpErrorResponse>,
   SignUpRequest
->;
+> = {
+  mutationKey: ['signUp'],
+  async mutationFn(variables) {
+    const res = await request.post('/auth/signup', variables);
+    return res.data;
+  },
+};

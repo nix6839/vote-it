@@ -14,13 +14,14 @@ interface LoginRequest {
   password: string;
 }
 
-export const loginMutation = {
-  mutationKey: ['login'],
-  mutationFn(variables) {
-    return request.post('/auth/login', variables);
-  },
-} satisfies UseMutationOptions<
+export const loginMutation: UseMutationOptions<
   LoginResponse,
   AxiosError<LoginErrorResponse>,
   LoginRequest
->;
+> = {
+  mutationKey: ['login'],
+  async mutationFn(variables) {
+    const res = await request.post('/auth/login', variables);
+    return res.data;
+  },
+};
