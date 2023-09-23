@@ -9,6 +9,7 @@
     "start": "next start",
     "test": "vitest",
     "lint": "next lint",
+    "type:check": "tsc",
     "format": "prettier \"**/*.{ts,tsx,cjs,css.json,yml,md}\" --write",
     "format:check": "prettier \"**/*.{ts,tsx,cjs,css.json,yml,md}\" --check"
   },
