@@ -9,7 +9,8 @@
     "start": "next start",
     "test": "vitest",
     "lint": "next lint",
-    "format": "prettier \"**/*.{ts,tsx,cjs,css.json,md}\" --write"
+    "format": "prettier \"**/*.{ts,tsx,cjs,css.json,yml,md}\" --write",
+    "format:check": "prettier \"**/*.{ts,tsx,cjs,css.json,yml,md}\" --check"
   },
   "dependencies": {
     "next": "13.5.1",
