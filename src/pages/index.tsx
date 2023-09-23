@@ -1,4 +1,4 @@
-import GetStartedDialog from '@/components/GetStartedDialog';
+import GetStartedDialog from '@/components/GetStartedDialog.tsx';
 import LogoIcon from '@/components/LogoIcon.tsx';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -7,10 +7,14 @@ export default function Home() {
   const [isGetStartedOpened, setIsGetStartedOpened] = useState(false);
 
   function handleOpenButtonClick() {
-    setIsGetStartedOpened((prev) => !prev);
+    setIsGetStartedOpened(true);
   }
 
-  function onGetStartedClose() {
+  function handleGetStartedClose() {
+    setIsGetStartedOpened(false);
+  }
+
+  function handleDidLogin() {
     setIsGetStartedOpened(false);
   }
 
@@ -25,7 +29,8 @@ export default function Home() {
         </button>
         <GetStartedDialog
           isOpened={isGetStartedOpened}
-          onClose={onGetStartedClose}
+          onClose={handleGetStartedClose}
+          didLogin={handleDidLogin}
         />
       </header>
     </>

@@ -1,5 +1,8 @@
 import '@/styles/globals.css';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useState } from 'react';
+
 import type { AppProps } from 'next/app';
 
 if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
@@ -8,6 +11,11 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
+  const [queryClient] = useState(() => new QueryClient());
 
-  return <Component {...pageProps} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Component {...pageProps} />
+    </QueryClientProvider>
+  );
 }

@@ -1,4 +1,7 @@
+import { loginMutation } from '@/api/mutations/login.ts';
+import { signUpMutation } from '@/api/mutations/sign-up.ts';
 import { X } from '@phosphor-icons/react';
+import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -10,12 +13,13 @@ interface GetStartedDialogProps {
    */
   isOpened?: boolean;
   onClose?: () => void;
+  didLogin?: () => void;
 }
 
 type Window = 'login' | 'signUp';
 
 export default function GetStartedDialog(props: GetStartedDialogProps) {
-  const { isOpened = false, onClose } = props;
+  const { isOpened = false, onClose, didLogin } = props;
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -57,6 +61,7 @@ export default function GetStartedDialog(props: GetStartedDialogProps) {
           initialPassword={password.current}
           setEmail={setEmail}
           setPassword={setPassword}
+          didLogin={didLogin}
         />
         <CurrentFooter setCurrentWindow={setCurrentWindow} />
         <button type="button" aria-label="모달 닫기" onClick={onClose}>
@@ -77,10 +82,13 @@ interface FormProps {
   initialPassword: string;
   setEmail: (newEmail: string) => void;
   setPassword: (newPassword: string) => void;
+
+  didLogin?: () => void;
 }
 
 function LoginForm(props: FormProps) {
-  const { initialEmail, initialPassword, setEmail, setPassword } = props;
+  const { initialEmail, initialPassword, setEmail, setPassword, didLogin } =
+    props;
 
   const { handleSubmit, register } = useForm<FormValues>({
     defaultValues: {
@@ -89,8 +97,10 @@ function LoginForm(props: FormProps) {
     },
   });
 
+  const { mutate: login, status: loginStatus } = useMutation(loginMutation);
+
   function handleValidatedSubmit(data: FormValues) {
-    console.log(data);
+    login(data, { onSuccess: didLogin });
   }
 
   return (
@@ -118,13 +128,16 @@ function LoginForm(props: FormProps) {
           })}
         />
       </label>
-      <button type="submit">로그인</button>
+      <button type="submit" disabled={loginStatus === 'pending'}>
+        로그인
+      </button>
     </form>
   );
 }
 
 function SignUpForm(props: FormProps) {
-  const { initialEmail, initialPassword, setEmail, setPassword } = props;
+  const { initialEmail, initialPassword, setEmail, setPassword, didLogin } =
+    props;
 
   const { handleSubmit, register } = useForm<FormValues>({
     defaultValues: {
@@ -133,8 +146,15 @@ function SignUpForm(props: FormProps) {
     },
   });
 
+  const { mutate: signUp, status: signUpStatus } = useMutation(signUpMutation);
+  const { mutate: login } = useMutation(loginMutation);
+
   function handleValidatedSubmit(data: FormValues) {
-    console.log(data);
+    signUp(data, {
+      onSuccess() {
+        login(data, { onSuccess: didLogin });
+      },
+    });
   }
 
   return (
@@ -162,7 +182,9 @@ function SignUpForm(props: FormProps) {
           })}
         />
       </label>
-      <button type="submit">회원가입</button>
+      <button type="submit" disabled={signUpStatus === 'pending'}>
+        회원가입
+      </button>
     </form>
   );
 }
