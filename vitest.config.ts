@@ -6,7 +6,7 @@ const config = defineConfig({
   plugins: [react(), tsconfigPaths()],
   test: {
     environment: 'happy-dom',
-    setupFiles: ['./tests/vitest-setup.ts'],
+    setupFiles: ['./tests/setup-vitest.ts'],
     clearMocks: true,
     restoreMocks: true,
     mockReset: true,
