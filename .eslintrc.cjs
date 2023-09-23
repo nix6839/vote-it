@@ -3,8 +3,8 @@ const config = {
 
   overrides: [
     {
-      files: ['**/*.test.{ts,tsx}'],
-      extends: ['plugin:testing-library/react'],
+      files: ['**/*.test.{ts,tsx}', './tests/setup-vitest.ts'],
+      extends: ['plugin:vitest/recommended', 'plugin:testing-library/react'],
     },
   ],
 };
