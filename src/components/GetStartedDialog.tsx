@@ -4,11 +4,6 @@ import { useForm } from 'react-hook-form';
 
 import type { Dispatch, MouseEvent, SetStateAction } from 'react';
 
-interface FormValues {
-  email: string;
-  password: string;
-}
-
 interface GetStartedDialogProps {
   /**
    * @default false
@@ -70,6 +65,11 @@ export default function GetStartedDialog(props: GetStartedDialogProps) {
       </div>
     </dialog>
   );
+}
+
+interface FormValues {
+  email: string;
+  password: string;
 }
 
 interface FormProps {
