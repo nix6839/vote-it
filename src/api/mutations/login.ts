@@ -1,4 +1,4 @@
-import request from '../request.js';
+import request from '../request.ts';
 
 import type { UseMutationOptions } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
