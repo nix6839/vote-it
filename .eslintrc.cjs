@@ -1,5 +1,9 @@
 const config = {
-  extends: ['next/core-web-vitals', 'prettier'],
+  extends: [
+    'next/core-web-vitals',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
+    'prettier',
+  ],
 
   overrides: [
     {

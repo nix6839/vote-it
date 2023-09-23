@@ -8,6 +8,9 @@ dependencies:
   '@phosphor-icons/react':
     specifier: 2.0.13
     version: 2.0.13(react-dom@18.2.0)(react@18.2.0)
+  '@tanstack/react-query':
+    specifier: 5.0.0-beta.35
+    version: 5.0.0-beta.35(react-dom@18.2.0)(react@18.2.0)
   next:
     specifier: 13.5.1
     version: 13.5.1(react-dom@18.2.0)(react@18.2.0)
@@ -28,6 +31,9 @@ devDependencies:
   '@nix6839/prettier-config':
     specifier: 1.0.8
     version: 1.0.8(@types/prettier@2.7.3)(prettier@2.8.8)
+  '@tanstack/eslint-plugin-query':
+    specifier: 5.0.0-beta.20
+    version: 5.0.0-beta.20(eslint@8.49.0)(typescript@5.2.2)
   '@testing-library/jest-dom':
     specifier: 6.1.3
     version: 6.1.3(vitest@0.34.5)
@@ -720,6 +726,40 @@ packages:
   /@swc/types@0.1.5:
     resolution: {integrity: sha512-myfUej5naTBWnqOCc/MdVOLVjXUXtIA+NpDrDBKJtLLg2shUjBu3cZmB/85RyitKc55+lUUyl7oRfLOvkr2hsw==}
     dev: true
+
+  /@tanstack/eslint-plugin-query@5.0.0-beta.20(eslint@8.49.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-i4lPAsXard87S9rFrXVl+Uk+T39Jr3t/nlf3VnIUpdwHI3t1ugBLa2Q2B3iyz8zvZV+c3Ml9fcBzqPIbbGkvvA==}
+    peerDependencies:
+      eslint: ^8.0.0
+    dependencies:
+      '@typescript-eslint/utils': 5.62.0(eslint@8.49.0)(typescript@5.2.2)
+      eslint: 8.49.0
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+    dev: true
+
+  /@tanstack/query-core@5.0.0-beta.35:
+    resolution: {integrity: sha512-UDFfBR+ncev2nte+nLsNTCX9Q06rfqADhTVnp5m43IdxFoXwy1qRVg3mBkMDZp+P2JHkKlRohYvZ+bUeuIwK2Q==}
+    dev: false
+
+  /@tanstack/react-query@5.0.0-beta.35(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-9hxP/DZbGucYFaHx6Njhkrbx32lNRk4QqqkGzyQ4IPaYfJTELE7urc9LBYRwrof211cj0W76IxmpjDwZ5ljZpQ==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@tanstack/query-core': 5.0.0-beta.35
+      client-only: 0.0.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /@testing-library/dom@9.3.3:
     resolution: {integrity: sha512-fB0R+fa3AUqbLHWyxXa2kGVtf1Fe1ZZFr0Zp6AIbIAzXb2mKbEXl+PCQNUOaq5lbTab5tfctfXRNsWXxa2f7Aw==}
