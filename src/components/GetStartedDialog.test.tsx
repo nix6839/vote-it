@@ -1,165 +1,195 @@
 import { apiURL } from '@/api/request.ts';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { expect, test } from '@tests/index.ts';
 import { rest } from 'msw';
-import { describe, expect, it, vi } from 'vitest';
-import { server } from '../../tests/mocks/server.ts';
 import GetStartedDialog from './GetStartedDialog.tsx';
 
-import type { ReactNode } from 'react';
+import type { Locator } from '@playwright/test';
 
-const queryClient = new QueryClient();
-const wrapper = ({ children }: { children: ReactNode }) => (
-  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-);
+class Locators {
+  readonly closeDialogButton: Locator;
+  readonly emailInput: Locator;
+  readonly passwordInput: Locator;
+  readonly signUpButton: Locator;
+  readonly loginButton: Locator;
+  readonly windowToSignUpButton: Locator;
+  readonly windowToLoginButton: Locator;
 
-describe('<GetStartedDialogButton />', () => {
-  it('닫기 버튼 클릭 시 `onClose()`가 실행돼야 함', async () => {
-    const onClose = vi.fn();
-    render(<GetStartedDialog isOpened onClose={onClose} />, { wrapper });
+  constructor(component: Locator) {
+    this.closeDialogButton = component.getByRole('button', {
+      name: '모달 닫기',
+    });
+    this.emailInput = component.getByRole('textbox', { name: '이메일' });
+    this.passwordInput = component.getByLabel('비밀번호');
+    this.signUpButton = component.getByRole('button', { name: '회원가입' });
+    this.loginButton = component.getByRole('button', { name: '로그인' });
+    this.windowToSignUpButton = component.getByRole('button', {
+      name: '회원가입!',
+    });
+    this.windowToLoginButton = component.getByRole('button', {
+      name: '로그인!',
+    });
+  }
+}
 
-    await userEvent.click(getCloseModalButton());
-    expect(onClose).toHaveBeenCalled();
+test.describe('<GetStartedDialog />', () => {
+  test('닫기 버튼 클릭 시 `onClose()`가 실행돼야 함', async ({ mount }) => {
+    let onClose = false;
+    const component = await mount(
+      <GetStartedDialog
+        isOpened
+        onClose={() => {
+          onClose = true;
+        }}
+      />,
+    );
+    const { closeDialogButton } = new Locators(component);
+
+    await closeDialogButton.click();
+    expect(onClose).toBe(true);
   });
 
-  it('로그인과 회원가입 창들의 이메일과 비밀번호 입력칸의 값은 공유 돼야 함', async () => {
-    render(<GetStartedDialog isOpened />, { wrapper });
+  test('로그인과 회원가입 창들의 이메일과 비밀번호 입력칸의 값은 공유돼야 함', async ({
+    mount,
+  }) => {
+    const component = await mount(<GetStartedDialog isOpened />);
+    const {
+      emailInput,
+      passwordInput,
+      windowToSignUpButton,
+      windowToLoginButton,
+    } = new Locators(component);
 
-    await userEvent.type(getEmailInput(), 'login@example.com');
-    await userEvent.type(getPasswordInput(), 'login1234');
-    await userEvent.click(getWindowToSignUpButton());
-    expect(getEmailInput()).toHaveValue('login@example.com');
-    expect(getPasswordInput()).toHaveValue('login1234');
+    await emailInput.fill('login@example.com');
+    await passwordInput.fill('login1234');
+    await windowToSignUpButton.click();
+    await expect(emailInput).toHaveValue('login@example.com');
+    await expect(passwordInput).toHaveValue('login1234');
 
-    await userEvent.clear(getEmailInput());
-    await userEvent.clear(getPasswordInput());
-
-    await userEvent.type(getEmailInput(), 'signUp@example.com');
-    await userEvent.type(getPasswordInput(), 'signUp1234');
-    await userEvent.click(getWindowToLoginButton());
-    expect(getEmailInput()).toHaveValue('signUp@example.com');
-    expect(getPasswordInput()).toHaveValue('signUp1234');
+    await emailInput.fill('signup@example.com');
+    await passwordInput.fill('signup1234');
+    await windowToLoginButton.click();
+    await expect(emailInput).toHaveValue('signup@example.com');
+    await expect(passwordInput).toHaveValue('signup1234');
   });
 
-  describe('로그인 창', () => {
-    it('회원가입 창으로 전환 버튼을 누를 시 변경돼야 함', async () => {
-      render(<GetStartedDialog isOpened />, { wrapper });
+  test.describe('로그인 창', () => {
+    test('회원가입 창으로 전환 버튼을 누를 시 변경돼야 함', async ({
+      mount,
+    }) => {
+      const component = await mount(<GetStartedDialog isOpened />);
+      const { windowToSignUpButton, signUpButton } = new Locators(component);
 
-      await userEvent.click(getWindowToSignUpButton());
-      expect(getSignUpButton()).toBeInTheDocument();
+      await windowToSignUpButton.click();
+      await expect(signUpButton).toBeVisible();
     });
 
-    it('로그인 버튼을 누를 시 API 응답이 올 동안 비활성화 상태여야 함', async () => {
-      server.use(
+    test('로그인 버튼을 누를 시 API 응답이 올 동안 비활성화 상태여야 함', async ({
+      mount,
+      worker,
+    }) => {
+      worker.use(
         rest.post(apiURL('/auth/login'), (req, res, ctx) => {
-          return res(ctx.delay());
+          return res(ctx.delay(1 * 1000));
         }),
       );
-      render(<GetStartedDialog isOpened />, { wrapper });
+      const component = await mount(<GetStartedDialog isOpened />);
+      const { emailInput, passwordInput, loginButton } = new Locators(
+        component,
+      );
 
-      const loginButton = getLoginButton();
-
-      await userEvent.type(getEmailInput(), 'login@example.com');
-      await userEvent.type(getPasswordInput(), 'login1234');
-      await userEvent.click(loginButton);
-
-      expect(loginButton).toBeDisabled();
-      await waitFor(() => {
-        expect(loginButton).not.toBeDisabled();
-      });
+      await emailInput.fill('login@example.com');
+      await passwordInput.fill('login1234');
+      await loginButton.click();
+      await expect(loginButton).toBeDisabled();
+      await expect(loginButton).toBeEnabled();
     });
 
-    it('로그인 완료 시 `didLogin()`가 실행 돼야 함', async () => {
-      const didLogin = vi.fn();
-      render(<GetStartedDialog isOpened didLogin={didLogin} />, { wrapper });
-      server.use(
+    test('로그인 완료 시 `didLogin()`가 실행 돼야 함', async ({
+      mount,
+      worker,
+    }) => {
+      worker.use(
         rest.post(apiURL('/auth/login'), (req, res, ctx) => {
           return res(ctx.status(200));
         }),
       );
+      let didLogin = false;
+      const component = await mount(
+        <GetStartedDialog
+          isOpened
+          didLogin={() => {
+            didLogin = true;
+          }}
+        />,
+      );
+      const { loginButton } = new Locators(component);
 
-      await userEvent.click(getLoginButton());
-      expect(didLogin).toHaveBeenCalled();
+      await loginButton.click();
+      await expect.poll(() => didLogin).toBe(true);
     });
   });
 
-  describe('회원가입 창', () => {
-    it('로그인 창으로 전환 버튼을 누를 시 변경돼야 함', async () => {
-      render(<GetStartedDialog isOpened />, { wrapper });
-      await userEvent.click(getWindowToSignUpButton());
+  test.describe('회원가입 창', () => {
+    test('로그인 창으로 전환 버튼을 누를 시 변경돼야 함', async ({ mount }) => {
+      const component = await mount(<GetStartedDialog isOpened />);
+      const { windowToSignUpButton, windowToLoginButton, loginButton } =
+        new Locators(component);
+      await windowToSignUpButton.click();
 
-      await userEvent.click(getWindowToLoginButton());
-      expect(getLoginButton()).toBeInTheDocument();
+      await windowToLoginButton.click();
+      await expect(loginButton).toBeVisible();
     });
 
-    it('회원가입 버튼을 누를 시 API 응답이 올 동안 비활성화 상태여야 함', async () => {
-      server.use(
+    test('회원가입 버튼을 누를 시 API 응답이 올 동안 비활성화 상태여야 함', async ({
+      mount,
+      worker,
+    }) => {
+      worker.use(
         rest.post(apiURL('/auth/signup'), (req, res, ctx) => {
-          return res(ctx.delay());
+          return res(ctx.delay(1 * 1000));
         }),
       );
-      render(<GetStartedDialog isOpened />, { wrapper });
-      await userEvent.click(getWindowToSignUpButton());
+      const component = await mount(<GetStartedDialog isOpened />);
+      const { windowToSignUpButton, signUpButton, emailInput, passwordInput } =
+        new Locators(component);
+      await windowToSignUpButton.click();
 
-      const signUpButton = getSignUpButton();
-
-      await userEvent.type(getEmailInput(), 'login@example.com');
-      await userEvent.type(getPasswordInput(), 'login1234');
-      await userEvent.click(signUpButton);
-
-      expect(signUpButton).toBeDisabled();
-      await waitFor(() => {
-        expect(signUpButton).not.toBeDisabled();
-      });
+      await emailInput.fill('login@example.com');
+      await passwordInput.fill('login1234');
+      await signUpButton.click();
+      await expect(signUpButton).toBeDisabled();
+      await expect(signUpButton).toBeEnabled();
     });
 
-    it('회원가입 완료 시 로그인을 수행하고 `didLogin()`가 실행 돼야 함.', async () => {
-      const loginCalled = vi.fn();
-      server.use(
-        rest.post(apiURL('/auth/login'), (req, res, ctx) => {
-          loginCalled();
-          return res();
-        }),
+    test('회원가입 완료 시 로그인을 수행하고 `didLogin()`가 실행 돼야 함.', async ({
+      mount,
+      worker,
+    }) => {
+      let loginCalled = false;
+      worker.use(
         rest.post(apiURL('/auth/signup'), (req, res, ctx) => {
           return res(ctx.status(201));
         }),
+        rest.post(apiURL('/auth/login'), (req, res, ctx) => {
+          loginCalled = true;
+          return res();
+        }),
       );
-      const didLogin = vi.fn();
-      render(<GetStartedDialog isOpened didLogin={didLogin} />, { wrapper });
-      await userEvent.click(getWindowToSignUpButton());
+      let didLogin = false;
+      const component = await mount(
+        <GetStartedDialog
+          isOpened
+          didLogin={() => {
+            didLogin = true;
+          }}
+        />,
+      );
+      const { windowToSignUpButton, signUpButton } = new Locators(component);
+      await windowToSignUpButton.click();
 
-      await userEvent.click(getSignUpButton());
-      expect(loginCalled).toHaveBeenCalled();
-      expect(didLogin).toHaveBeenCalled();
+      await signUpButton.click();
+      await expect.poll(() => loginCalled).toBe(true);
+      await expect.poll(() => didLogin).toBe(true);
     });
   });
 });
-
-function getCloseModalButton() {
-  return screen.getByRole('button', { name: '모달 닫기' });
-}
-
-function getEmailInput() {
-  return screen.getByRole('textbox', { name: '이메일' });
-}
-
-function getPasswordInput() {
-  return screen.getByLabelText('비밀번호');
-}
-
-function getSignUpButton() {
-  return screen.getByRole('button', { name: '회원가입' });
-}
-
-function getLoginButton() {
-  return screen.getByRole('button', { name: '로그인' });
-}
-
-function getWindowToSignUpButton() {
-  return screen.getByRole('button', { name: '회원가입!' });
-}
-
-function getWindowToLoginButton() {
-  return screen.getByRole('button', { name: '로그인!' });
-}

@@ -8,6 +8,8 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.38.1-jammy
 
     steps:
       - name: Checkout

@@ -7,8 +7,8 @@ const config = {
 
   overrides: [
     {
-      files: ['**/*.test.{ts,tsx}', './tests/setup-vitest.ts'],
-      extends: ['plugin:vitest/recommended', 'plugin:testing-library/react'],
+      files: ['**/*.test.tsx'],
+      extends: ['plugin:playwright/recommended'],
     },
   ],
 };
