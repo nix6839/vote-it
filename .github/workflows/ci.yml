@@ -37,6 +37,9 @@ jobs:
 
       - name: Testing
         run: pnpm test
+        env:
+          # Refer to: https://github.com/microsoft/playwright/issues/6500#issuecomment-1577221956
+          HOME: /root
 
       - name: Build
         run: pnpm build
