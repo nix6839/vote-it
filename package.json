@@ -16,6 +16,7 @@
   "dependencies": {
     "@phosphor-icons/react": "2.0.13",
     "@tanstack/react-query": "5.0.0-beta.35",
+    "@tanstack/react-query-devtools": "5.0.0-beta.36",
     "axios": "1.5.0",
     "next": "13.5.2",
     "react": "18.2.0",
