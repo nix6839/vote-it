@@ -1,5 +1,6 @@
 import { apiURL } from '@/api/request';
 import { expect, test } from '@tests/index.ts';
+import GetStartedDialogLocators from '@tests/utils/GetStartedDialogLocators.ts';
 import { rest } from 'msw';
 import SubMenu from './SubMenu.tsx';
 
@@ -88,5 +89,44 @@ test.describe('<SubMenu />', () => {
 
     await getStartedOpenButton.click();
     await expect(component.getByRole('dialog')).toBeVisible();
+  });
+
+  test('로그인이 완료 되면 모달이 닫히고 바로 닉네임이 보여야 함', async ({
+    mount,
+    worker,
+  }) => {
+    worker.use(
+      rest.get(apiURL('/users/me'), (req, res, ctx) => {
+        const { accessToken } = req.cookies;
+        if (accessToken !== 'abc-123') {
+          return res(
+            ctx.status(401),
+            ctx.json({ message: '로그인이 필요합니다.' }),
+          );
+        }
+
+        return res(
+          ctx.status(200),
+          ctx.json({
+            id: 1,
+            email: 'user@example.com',
+            nickname: '닉네임1234',
+          }),
+        );
+      }),
+      rest.post(apiURL('/auth/login'), (req, res, ctx) => {
+        return res(ctx.status(200), ctx.cookie('accessToken', 'abc-123'));
+      }),
+    );
+    const component = await mount(<SubMenu />);
+    const { getStartedOpenButton, nickname } = new Locators(component);
+
+    await getStartedOpenButton.click();
+    const { loginButton } = new GetStartedDialogLocators(
+      component.getByRole('dialog'),
+    );
+    await loginButton.click();
+    await expect(component.getByRole('dialog')).toBeHidden();
+    await expect(nickname).toBeVisible();
   });
 });

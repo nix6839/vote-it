@@ -1,8 +1,13 @@
 import { getMe } from '@/api/get-me.ts';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import {
+  useQueryErrorResetBoundary,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import GetStartedDialog from './GetStartedDialog.tsx';
+
+import type { FallbackProps } from 'react-error-boundary';
 
 function SubMenuLoggedIn() {
   const { data: me } = useSuspenseQuery(getMe);
@@ -10,7 +15,9 @@ function SubMenuLoggedIn() {
   return <p>{me.nickname}</p>;
 }
 
-function SubMenuNotLoggedIn() {
+function SubMenuNotLoggedIn(props: FallbackProps) {
+  const { resetErrorBoundary } = props;
+
   const [isGetStartedOpened, setIsGetStartedOpened] = useState(false);
 
   function handleOpenButtonClick() {
@@ -21,7 +28,8 @@ function SubMenuNotLoggedIn() {
     setIsGetStartedOpened(false);
   }
 
-  function handleDidLogin() {
+  async function handleDidLogin() {
+    resetErrorBoundary();
     setIsGetStartedOpened(false);
   }
 
@@ -44,8 +52,10 @@ function SubMenuLoading() {
 }
 
 export default function SubMenu() {
+  const { reset } = useQueryErrorResetBoundary();
+
   return (
-    <ErrorBoundary fallback={<SubMenuNotLoggedIn />}>
+    <ErrorBoundary onReset={reset} FallbackComponent={SubMenuNotLoggedIn}>
       <Suspense fallback={<SubMenuLoading />}>
         <SubMenuLoggedIn />
       </Suspense>
