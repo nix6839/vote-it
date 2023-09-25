@@ -19,4 +19,24 @@ export const handlers = [
     }
     return res(ctx.status(200), ctx.cookie('accessToken', 'abc-123'));
   }),
+
+  rest.get(apiURL('/users/me'), (req, res, ctx) => {
+    const { accessToken } = req.cookies;
+
+    if (accessToken !== 'abc-123') {
+      return res(
+        ctx.status(401),
+        ctx.json({ message: '로그인이 필요합니다.' }),
+      );
+    }
+
+    return res(
+      ctx.status(200),
+      ctx.json({
+        id: 1,
+        email: 'user@example.com',
+        nickname: '닉네임1234',
+      }),
+    );
+  }),
 ];

@@ -1,6 +1,10 @@
 import '@/styles/globals.css';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+  QueryErrorResetBoundary,
+} from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useState } from 'react';
 
@@ -17,7 +21,9 @@ export default function App(props: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
-      <Component {...pageProps} />
+      <QueryErrorResetBoundary>
+        <Component {...pageProps} />
+      </QueryErrorResetBoundary>
     </QueryClientProvider>
   );
 }

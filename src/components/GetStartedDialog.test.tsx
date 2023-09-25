@@ -1,35 +1,8 @@
 import { apiURL } from '@/api/request.ts';
 import { expect, test } from '@tests/index.ts';
+import GetStartedDialogLocators from '@tests/utils/GetStartedDialogLocators.ts';
 import { rest } from 'msw';
 import GetStartedDialog from './GetStartedDialog.tsx';
-
-import type { Locator } from '@playwright/test';
-
-class Locators {
-  readonly closeDialogButton: Locator;
-  readonly emailInput: Locator;
-  readonly passwordInput: Locator;
-  readonly signUpButton: Locator;
-  readonly loginButton: Locator;
-  readonly windowToSignUpButton: Locator;
-  readonly windowToLoginButton: Locator;
-
-  constructor(component: Locator) {
-    this.closeDialogButton = component.getByRole('button', {
-      name: '모달 닫기',
-    });
-    this.emailInput = component.getByRole('textbox', { name: '이메일' });
-    this.passwordInput = component.getByLabel('비밀번호');
-    this.signUpButton = component.getByRole('button', { name: '회원가입' });
-    this.loginButton = component.getByRole('button', { name: '로그인' });
-    this.windowToSignUpButton = component.getByRole('button', {
-      name: '회원가입!',
-    });
-    this.windowToLoginButton = component.getByRole('button', {
-      name: '로그인!',
-    });
-  }
-}
 
 test.describe('<GetStartedDialog />', () => {
   test('닫기 버튼 클릭 시 `onClose()`가 실행돼야 함', async ({ mount }) => {
@@ -42,7 +15,7 @@ test.describe('<GetStartedDialog />', () => {
         }}
       />,
     );
-    const { closeDialogButton } = new Locators(component);
+    const { closeDialogButton } = new GetStartedDialogLocators(component);
 
     await closeDialogButton.click();
     expect(onClose).toBe(true);
@@ -57,7 +30,7 @@ test.describe('<GetStartedDialog />', () => {
       passwordInput,
       windowToSignUpButton,
       windowToLoginButton,
-    } = new Locators(component);
+    } = new GetStartedDialogLocators(component);
 
     await emailInput.fill('login@example.com');
     await passwordInput.fill('login1234');
@@ -77,7 +50,8 @@ test.describe('<GetStartedDialog />', () => {
       mount,
     }) => {
       const component = await mount(<GetStartedDialog isOpened />);
-      const { windowToSignUpButton, signUpButton } = new Locators(component);
+      const { windowToSignUpButton, signUpButton } =
+        new GetStartedDialogLocators(component);
 
       await windowToSignUpButton.click();
       await expect(signUpButton).toBeVisible();
@@ -93,9 +67,8 @@ test.describe('<GetStartedDialog />', () => {
         }),
       );
       const component = await mount(<GetStartedDialog isOpened />);
-      const { emailInput, passwordInput, loginButton } = new Locators(
-        component,
-      );
+      const { emailInput, passwordInput, loginButton } =
+        new GetStartedDialogLocators(component);
 
       await emailInput.fill('login@example.com');
       await passwordInput.fill('login1234');
@@ -122,7 +95,7 @@ test.describe('<GetStartedDialog />', () => {
           }}
         />,
       );
-      const { loginButton } = new Locators(component);
+      const { loginButton } = new GetStartedDialogLocators(component);
 
       await loginButton.click();
       await expect.poll(() => didLogin).toBe(true);
@@ -133,7 +106,7 @@ test.describe('<GetStartedDialog />', () => {
     test('로그인 창으로 전환 버튼을 누를 시 변경돼야 함', async ({ mount }) => {
       const component = await mount(<GetStartedDialog isOpened />);
       const { windowToSignUpButton, windowToLoginButton, loginButton } =
-        new Locators(component);
+        new GetStartedDialogLocators(component);
       await windowToSignUpButton.click();
 
       await windowToLoginButton.click();
@@ -151,7 +124,7 @@ test.describe('<GetStartedDialog />', () => {
       );
       const component = await mount(<GetStartedDialog isOpened />);
       const { windowToSignUpButton, signUpButton, emailInput, passwordInput } =
-        new Locators(component);
+        new GetStartedDialogLocators(component);
       await windowToSignUpButton.click();
 
       await emailInput.fill('login@example.com');
@@ -184,7 +157,8 @@ test.describe('<GetStartedDialog />', () => {
           }}
         />,
       );
-      const { windowToSignUpButton, signUpButton } = new Locators(component);
+      const { windowToSignUpButton, signUpButton } =
+        new GetStartedDialogLocators(component);
       await windowToSignUpButton.click();
 
       await signUpButton.click();
