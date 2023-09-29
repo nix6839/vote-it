@@ -1,4 +1,5 @@
 import LogoIcon from '@/components/LogoIcon.tsx';
+import Polls from '@/components/Polls.tsx';
 import SubMenu from '@/components/SubMenu.tsx';
 import Link from 'next/link';
 
@@ -11,6 +12,9 @@ export default function Home() {
         </Link>
         <SubMenu />
       </header>
+      <main>
+        <Polls />
+      </main>
     </>
   );
 }
