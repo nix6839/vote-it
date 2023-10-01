@@ -1,7 +1,7 @@
 import { apiURL } from '@/api/request.ts';
 import { rest } from 'msw';
 
-import type { Poll } from '@/api/get-polls.infinite.ts';
+import type { Poll } from '@/api/types.ts';
 
 const poll: Poll = {
   id: 1,

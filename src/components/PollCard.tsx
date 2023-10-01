@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import LogoIcon from './LogoIcon.tsx';
 
-import type { Poll } from '@/api/get-polls.infinite.ts';
+import type { Poll } from '@/api/types.ts';
 
 interface PollCardProps {
   poll: Poll;
