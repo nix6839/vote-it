@@ -3,7 +3,7 @@ if (typeof window === 'undefined') {
   server.listen();
 } else {
   const { worker } = await import('./browser.ts');
-  worker.start();
+  worker.start({ onUnhandledRequest: 'bypass' });
 }
 
 export {};
