@@ -1,5 +1,6 @@
 import '@/styles/globals.css';
 
+import BaseLayout from '@/components/BaseLayout.tsx';
 import {
   useSyncThemeAcrossInstances,
   useSyncThemeWithSystem,
@@ -28,7 +29,9 @@ export default function App(props: AppProps) {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
       <QueryErrorResetBoundary>
-        <Component {...pageProps} />
+        <BaseLayout>
+          <Component {...pageProps} />
+        </BaseLayout>
       </QueryErrorResetBoundary>
     </QueryClientProvider>
   );
