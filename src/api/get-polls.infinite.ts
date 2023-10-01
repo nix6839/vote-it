@@ -5,20 +5,7 @@ import type {
   UseSuspenseInfiniteQueryOptions,
 } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
-
-interface Author {
-  nickname: string;
-}
-
-export interface Poll {
-  id: number;
-  createdAt: string;
-  subject: string;
-  expirationDate: string | null;
-  picture: string | null;
-  participatedCount: number;
-  author: Author;
-}
+import type { Poll } from './types.ts';
 
 interface GetPollsResponse {
   polls: Poll[];

@@ -1,7 +1,9 @@
+// TODO: use faker.js for mock generate.
+
 import { apiURL } from '@/api/request.ts';
 import { rest } from 'msw';
 
-import type { Poll } from '@/api/get-polls.infinite.ts';
+import type { Poll } from '@/api/types.ts';
 
 const poll: Poll = {
   id: 1,
@@ -10,8 +12,27 @@ const poll: Poll = {
   expirationDate: null,
   picture: null,
   participatedCount: 0,
+  isPlural: false,
+  isVoted: false,
+  options: [
+    {
+      id: 1,
+      content: 'asdf',
+      votedCount: 0,
+      isVoted: false,
+    },
+    {
+      id: 2,
+      content: 'qwer',
+      votedCount: 0,
+      isVoted: false,
+    },
+  ],
   author: {
+    id: 1,
+    email: 'user1@example.com',
     nickname: 'nickname1',
+    picture: null,
   },
 };
 
@@ -19,7 +40,10 @@ export const polls: Poll[] = Array.from({ length: 50 }, (_, i) => ({
   ...poll,
   id: i + 1,
   author: {
+    id: i + 1,
+    email: `user${i + 1}@example.com`,
     nickname: `Nick${i + 1}`,
+    picture: null,
   },
 }));
 
