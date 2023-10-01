@@ -6,6 +6,7 @@ import {
   useSyncThemeWithSystem,
 } from '@/core/theme.tsx';
 import {
+  HydrationBoundary,
   QueryClient,
   QueryClientProvider,
   QueryErrorResetBoundary,
@@ -19,20 +20,36 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
   await import('@tests/mocks/isomorphic-init.ts');
 }
 
+const queryClientConfig = {
+  defaultOptions: {
+    queries: {
+      /**
+       * With SSR, we usually want to set some default staleTime
+       * above 0 to avoid refetching immediately on the client
+       */
+      staleTime: 60 * 1000,
+    },
+  },
+};
+
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
-  const [queryClient] = useState(() => new QueryClient());
+
+  const [queryClient] = useState(() => new QueryClient(queryClientConfig));
+
   useSyncThemeAcrossInstances();
   useSyncThemeWithSystem();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools />
-      <QueryErrorResetBoundary>
-        <BaseLayout>
-          <Component {...pageProps} />
-        </BaseLayout>
-      </QueryErrorResetBoundary>
+      <HydrationBoundary state={pageProps.dehydratedState}>
+        <ReactQueryDevtools />
+        <QueryErrorResetBoundary>
+          <BaseLayout>
+            <Component {...pageProps} />
+          </BaseLayout>
+        </QueryErrorResetBoundary>
+      </HydrationBoundary>
     </QueryClientProvider>
   );
 }
