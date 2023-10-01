@@ -20,11 +20,11 @@ function SubMenuNotLoggedIn(props: FallbackProps) {
 
   const [isGetStartedOpened, setIsGetStartedOpened] = useState(false);
 
-  function handleOpenButtonClick() {
+  function openGetStarted() {
     setIsGetStartedOpened(true);
   }
 
-  function handleGetStartedClose() {
+  function closeGetStarted() {
     setIsGetStartedOpened(false);
   }
 
@@ -35,12 +35,12 @@ function SubMenuNotLoggedIn(props: FallbackProps) {
 
   return (
     <>
-      <button type="button" onClick={handleOpenButtonClick}>
+      <button type="button" onClick={openGetStarted}>
         시작하기
       </button>
       <GetStartedDialog
         isOpened={isGetStartedOpened}
-        onClose={handleGetStartedClose}
+        onClose={closeGetStarted}
         didLogin={handleDidLogin}
       />
     </>
