@@ -1,6 +1,10 @@
 import '@/styles/globals.css';
 
 import {
+  useSyncThemeAcrossInstances,
+  useSyncThemeWithSystem,
+} from '@/core/theme.tsx';
+import {
   QueryClient,
   QueryClientProvider,
   QueryErrorResetBoundary,
@@ -17,6 +21,8 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === 'true') {
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
   const [queryClient] = useState(() => new QueryClient());
+  useSyncThemeAcrossInstances();
+  useSyncThemeWithSystem();
 
   return (
     <QueryClientProvider client={queryClient}>
