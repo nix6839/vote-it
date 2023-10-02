@@ -13,7 +13,7 @@ const poll: Poll = {
   expirationDate: null,
   picture: null,
   participatedCount: 0,
-  isPlural: false,
+  isMultiple: false,
   isVoted: false,
   options: [
     {

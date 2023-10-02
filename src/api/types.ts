@@ -9,7 +9,7 @@ export interface Poll {
   id: number;
   createdAt: string;
   subject: string;
-  isPlural: boolean;
+  isMultiple: boolean;
   expirationDate: string | null;
   picture: string | null;
   participatedCount: number;
