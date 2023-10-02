@@ -1,6 +1,7 @@
 // TODO: use faker.js for mock generate.
 
 import { apiURL } from '@/api/request.ts';
+import isInteger from '@/utils/is-integer.ts';
 import { rest } from 'msw';
 
 import type { Poll } from '@/api/types.ts';
@@ -110,7 +111,3 @@ export const handlers = [
     );
   }),
 ];
-
-function isInteger(s: string) {
-  return /^\+?[1-9]\d*$/.test(s);
-}
