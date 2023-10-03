@@ -1,6 +1,7 @@
 import { getMe } from '@/api/get-me.ts';
+import useModal from '@/hooks/use-modal.ts';
 import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import GetStartedDialog from './GetStartedDialog.tsx';
 
 function SubMenuLoading() {
@@ -8,30 +9,23 @@ function SubMenuLoading() {
 }
 
 function SubMenuNotLoggedIn() {
-  const [isGetStartedOpened, setIsGetStartedOpened] = useState(false);
   const queryClient = useQueryClient();
 
-  function openGetStarted() {
-    setIsGetStartedOpened(true);
-  }
-
-  function closeGetStarted() {
-    setIsGetStartedOpened(false);
-  }
+  const { isOpened, open, close } = useModal();
 
   async function handleDidLogin() {
     await queryClient.refetchQueries();
-    setIsGetStartedOpened(false);
+    close();
   }
 
   return (
     <>
-      <button type="button" onClick={openGetStarted}>
+      <button type="button" onClick={open}>
         시작하기
       </button>
       <GetStartedDialog
-        isOpened={isGetStartedOpened}
-        onClose={closeGetStarted}
+        isOpened={isOpened}
+        onClose={close}
         didLogin={handleDidLogin}
       />
     </>
