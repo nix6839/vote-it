@@ -1,24 +1,15 @@
 import { getMe } from '@/api/get-me.ts';
-import {
-  useQueryErrorResetBoundary,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
+import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { Suspense, useState } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
 import GetStartedDialog from './GetStartedDialog.tsx';
 
-import type { FallbackProps } from 'react-error-boundary';
-
-function SubMenuLoggedIn() {
-  const { data: me } = useSuspenseQuery(getMe);
-
-  return <p>{me.nickname}</p>;
+function SubMenuLoading() {
+  return <div>Loading...</div>;
 }
 
-function SubMenuNotLoggedIn(props: FallbackProps) {
-  const { resetErrorBoundary } = props;
-
+function SubMenuNotLoggedIn() {
   const [isGetStartedOpened, setIsGetStartedOpened] = useState(false);
+  const queryClient = useQueryClient();
 
   function openGetStarted() {
     setIsGetStartedOpened(true);
@@ -29,7 +20,7 @@ function SubMenuNotLoggedIn(props: FallbackProps) {
   }
 
   async function handleDidLogin() {
-    resetErrorBoundary();
+    await queryClient.refetchQueries();
     setIsGetStartedOpened(false);
   }
 
@@ -47,18 +38,20 @@ function SubMenuNotLoggedIn(props: FallbackProps) {
   );
 }
 
-function SubMenuLoading() {
-  return <div>Loading...</div>;
+function SubMenuMain() {
+  const { data: me } = useSuspenseQuery(getMe);
+
+  if (!me.isLoggedIn) {
+    return <SubMenuNotLoggedIn />;
+  }
+
+  return <p>{me.nickname}</p>;
 }
 
 export default function SubMenu() {
-  const { reset } = useQueryErrorResetBoundary();
-
   return (
-    <ErrorBoundary onReset={reset} FallbackComponent={SubMenuNotLoggedIn}>
-      <Suspense fallback={<SubMenuLoading />}>
-        <SubMenuLoggedIn />
-      </Suspense>
-    </ErrorBoundary>
+    <Suspense fallback={<SubMenuLoading />}>
+      <SubMenuMain />
+    </Suspense>
   );
 }

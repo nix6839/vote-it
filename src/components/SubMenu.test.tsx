@@ -29,6 +29,7 @@ test.describe('<SubMenu />', () => {
       rest.get(apiURL('/users/me'), (req, res, ctx) => {
         return res(
           ctx.json({
+            isLoggedIn: true,
             id: 1,
             email: 'user@example.com',
             nickname: '닉네임1234',
@@ -50,7 +51,7 @@ test.describe('<SubMenu />', () => {
       rest.get(apiURL('/users/me'), (req, res, ctx) => {
         return res(
           ctx.status(401),
-          ctx.json({ message: '로그인이 필요합니다.' }),
+          ctx.json({ isLoggedIn: false, message: '로그인이 필요합니다.' }),
         );
       }),
     );
@@ -80,7 +81,7 @@ test.describe('<SubMenu />', () => {
       rest.get(apiURL('/users/me'), (req, res, ctx) => {
         return res(
           ctx.status(401),
-          ctx.json({ message: '로그인이 필요합니다.' }),
+          ctx.json({ isLoggedIn: false, message: '로그인이 필요합니다.' }),
         );
       }),
     );
@@ -101,13 +102,14 @@ test.describe('<SubMenu />', () => {
         if (accessToken !== 'abc-123') {
           return res(
             ctx.status(401),
-            ctx.json({ message: '로그인이 필요합니다.' }),
+            ctx.json({ isLoggedIn: false, message: '로그인이 필요합니다.' }),
           );
         }
 
         return res(
           ctx.status(200),
           ctx.json({
+            isLoggedIn: true,
             id: 1,
             email: 'user@example.com',
             nickname: '닉네임1234',
