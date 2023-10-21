@@ -1,8 +1,8 @@
-const hwyConfig = require('@nix6839/prettier-config');
+import hwyConfig from '@nix6839/prettier-config';
 
 /** @satisfies {import('prettier').Config} */
 const config = {
   ...hwyConfig,
 };
 
-module.exports = config;
+export default config;
