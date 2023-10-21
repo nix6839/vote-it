@@ -41,8 +41,8 @@ dependencies:
 
 devDependencies:
   '@nix6839/prettier-config':
-    specifier: 1.0.8
-    version: 1.0.8(@types/prettier@2.7.3)(prettier@2.8.8)
+    specifier: 2.0.2
+    version: 2.0.2(prettier@3.0.3)
   '@playwright/experimental-ct-react':
     specifier: 1.39.0
     version: 1.39.0(@types/node@18.18.6)(vite@4.5.0)
@@ -55,9 +55,6 @@ devDependencies:
   '@types/node':
     specifier: 18.18.6
     version: 18.18.6
-  '@types/prettier':
-    specifier: 2.7.3
-    version: 2.7.3
   '@types/react':
     specifier: 18.2.31
     version: 18.2.31
@@ -86,11 +83,11 @@ devDependencies:
     specifier: 8.4.31
     version: 8.4.31
   prettier:
-    specifier: 2.8.8
-    version: 2.8.8
+    specifier: 3.0.3
+    version: 3.0.3
   prettier-plugin-tailwindcss:
-    specifier: 0.4.1
-    version: 0.4.1(prettier@2.8.8)
+    specifier: 0.5.6
+    version: 0.5.6(prettier@3.0.3)
   typescript:
     specifier: 5.2.2
     version: 5.2.2
@@ -710,17 +707,12 @@ packages:
     dev: false
     optional: true
 
-  /@nix6839/prettier-config@1.0.8(@types/prettier@2.7.3)(prettier@2.8.8):
-    resolution: {integrity: sha512-c1eBWI+WGkZAmmkIiVn91C20eUFt17gOM6bFDTD7/LC4jpZ+AjlnVw8RjaJaDw0WzSZtbiWqupfIAHuw/ImN1g==}
+  /@nix6839/prettier-config@2.0.2(prettier@3.0.3):
+    resolution: {integrity: sha512-Nig5WQBzboQsw2j49axm1pPTKJ+4o6IdHPgFHgtBR4ga6L+ET++6fudkpDK/j6FJqWmAl+Tfxqfm3TPNPkL1Mg==}
     peerDependencies:
-      '@types/prettier': ^2.7.1
-      prettier: ^2.7.1
-    peerDependenciesMeta:
-      '@types/prettier':
-        optional: true
+      prettier: ^3.0.1
     dependencies:
-      '@types/prettier': 2.7.3
-      prettier: 2.8.8
+      prettier: 3.0.3
     dev: true
 
   /@nodelib/fs.scandir@2.1.5:
@@ -918,10 +910,6 @@ packages:
 
   /@types/node@18.18.6:
     resolution: {integrity: sha512-wf3Vz+jCmOQ2HV1YUJuCWdL64adYxumkrxtc+H1VUQlnQI04+5HtH+qZCOE21lBE7gIrt+CwX2Wv8Acrw5Ak6w==}
-    dev: true
-
-  /@types/prettier@2.7.3:
-    resolution: {integrity: sha512-+68kP9yzs4LMp7VNh8gdzMSPZFL44MLGqiHWvttYJe+6qnuVr4Ek9wSBQoveqY/r+LwjCcU29kNVkidwim+kYA==}
     dev: true
 
   /@types/prop-types@15.7.9:
@@ -3234,16 +3222,16 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier-plugin-tailwindcss@0.4.1(prettier@2.8.8):
-    resolution: {integrity: sha512-hwn2EiJmv8M+AW4YDkbjJ6HlZCTzLyz1QlySn9sMuKV/Px0fjwldlB7tol8GzdgqtkdPtzT3iJ4UzdnYXP25Ag==}
-    engines: {node: '>=12.17.0'}
+  /prettier-plugin-tailwindcss@0.5.6(prettier@3.0.3):
+    resolution: {integrity: sha512-2Xgb+GQlkPAUCFi3sV+NOYcSI5XgduvDBL2Zt/hwJudeKXkyvRS65c38SB0yb9UB40+1rL83I6m0RtlOQ8eHdg==}
+    engines: {node: '>=14.21.3'}
     peerDependencies:
       '@ianvs/prettier-plugin-sort-imports': '*'
       '@prettier/plugin-pug': '*'
       '@shopify/prettier-plugin-liquid': '*'
       '@shufo/prettier-plugin-blade': '*'
       '@trivago/prettier-plugin-sort-imports': '*'
-      prettier: ^2.2 || ^3.0
+      prettier: ^3.0
       prettier-plugin-astro: '*'
       prettier-plugin-css-order: '*'
       prettier-plugin-import-sort: '*'
@@ -3286,12 +3274,12 @@ packages:
       prettier-plugin-twig-melody:
         optional: true
     dependencies:
-      prettier: 2.8.8
+      prettier: 3.0.3
     dev: true
 
-  /prettier@2.8.8:
-    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
-    engines: {node: '>=10.13.0'}
+  /prettier@3.0.3:
+    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
+    engines: {node: '>=14'}
     hasBin: true
     dev: true
 
