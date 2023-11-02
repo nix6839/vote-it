@@ -4,26 +4,29 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
 
     "module": "ESNext",
-    "esModuleInterop": true,
     "moduleResolution": "Bundler",
+
+    "verbatimModuleSyntax": true,
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
 
     "strict": true,
     "noImplicitOverride": true,
-
-    "allowJs": true,
-    "skipLibCheck": true,
-    "noEmit": true,
-    "jsx": "preserve",
-    "incremental": true,
+    "forceConsistentCasingInFileNames": true,
 
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
       "@tests/*": ["./tests/*"]
-    }
+    },
+
+    "jsx": "preserve",
+
+    "noEmit": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "incremental": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
