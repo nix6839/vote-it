@@ -5,9 +5,9 @@ import { handlers } from './mocks/handlers.ts';
 import type { MockServiceWorker } from 'playwright-msw';
 
 const test = base.extend<{
-  worker: MockServiceWorker;
+	worker: MockServiceWorker;
 }>({
-  worker: createWorkerFixture(handlers),
+	worker: createWorkerFixture(handlers),
 });
 
 export { expect, test };

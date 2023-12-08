@@ -41,8 +41,8 @@ dependencies:
 
 devDependencies:
   '@nix6839/prettier-config':
-    specifier: 2.0.2
-    version: 2.0.2(prettier@3.1.0)
+    specifier: 2.1.0
+    version: 2.1.0(prettier@3.1.0)
   '@playwright/experimental-ct-react':
     specifier: 1.40.1
     version: 1.40.1(@types/node@18.19.3)(vite@5.0.6)
@@ -905,10 +905,10 @@ packages:
     dev: false
     optional: true
 
-  /@nix6839/prettier-config@2.0.2(prettier@3.1.0):
-    resolution: {integrity: sha512-Nig5WQBzboQsw2j49axm1pPTKJ+4o6IdHPgFHgtBR4ga6L+ET++6fudkpDK/j6FJqWmAl+Tfxqfm3TPNPkL1Mg==}
+  /@nix6839/prettier-config@2.1.0(prettier@3.1.0):
+    resolution: {integrity: sha512-HbU0Gr8yYdU4lUX1TvhMJkTdL+C9Y0HWNrF2Aohk4/IbbUtAZy5fOOoPXEynzpnbuIyHJCteSpoS8x7r8qJfSQ==}
     peerDependencies:
-      prettier: ^3.0.1
+      prettier: ^3.1.0
     dependencies:
       prettier: 3.1.0
     dev: true
