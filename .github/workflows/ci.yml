@@ -9,7 +9,7 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.39.0-jammy
+      image: mcr.microsoft.com/playwright:v1.40.1-jammy
 
     steps:
       - name: Checkout
@@ -18,7 +18,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8.10.2
+          version: 8.11.0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
