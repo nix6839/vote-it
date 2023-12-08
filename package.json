@@ -10,8 +10,8 @@
     "test": "playwright test -c playwright-ct.config.ts",
     "lint": "next lint",
     "type:check": "tsc",
-    "format": "prettier \"**/*.{ts,tsx,cjs,css.json,yml,md}\" --write",
-    "format:check": "prettier \"**/*.{ts,tsx,cjs,css.json,yml,md}\" --check"
+    "format": "prettier \"**/*.{ts,tsx,js,cjs,html,css,json,yml,md}\" --write",
+    "format:check": "prettier \"**/*.{ts,tsx,js,cjs,html,css,json,yml,md}\" --check"
   },
   "dependencies": {
     "@phosphor-icons/react": "2.0.14",
