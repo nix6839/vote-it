@@ -27,7 +27,7 @@
     "tailwindcss": "3.3.6"
   },
   "devDependencies": {
-    "@nix6839/prettier-config": "2.0.2",
+    "@nix6839/prettier-config": "2.1.0",
     "@playwright/experimental-ct-react": "1.40.1",
     "@playwright/test": "1.40.1",
     "@tanstack/eslint-plugin-query": "5.12.1",
