@@ -6,22 +6,22 @@ import type { AxiosError } from 'axios';
 interface SignUpResponse {}
 
 interface SignUpErrorResponse {
-  message: string;
+	message: string;
 }
 
 interface SignUpRequest {
-  email: string;
-  password: string;
+	email: string;
+	password: string;
 }
 
 export const signUpMutation: UseMutationOptions<
-  SignUpResponse,
-  AxiosError<SignUpErrorResponse>,
-  SignUpRequest
+	SignUpResponse,
+	AxiosError<SignUpErrorResponse>,
+	SignUpRequest
 > = {
-  mutationKey: ['signUp'],
-  async mutationFn(variables) {
-    const res = await request.post('/auth/signup', variables);
-    return res.data;
-  },
+	mutationKey: ['signUp'],
+	async mutationFn(variables) {
+		const res = await request.post('/auth/signup', variables);
+		return res.data;
+	},
 };

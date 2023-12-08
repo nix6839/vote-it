@@ -1,33 +1,33 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+	"compilerOptions": {
+		"target": "ES2022",
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
 
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
 
-    "verbatimModuleSyntax": true,
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
+		"verbatimModuleSyntax": true,
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
 
-    "strict": true,
-    "noImplicitOverride": true,
-    "forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"noImplicitOverride": true,
+		"forceConsistentCasingInFileNames": true,
 
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@tests/*": ["./tests/*"]
-    },
+		"baseUrl": "./",
+		"paths": {
+			"@/*": ["./src/*"],
+			"@tests/*": ["./tests/*"]
+		},
 
-    "jsx": "preserve",
+		"jsx": "preserve",
 
-    "noEmit": true,
-    "skipLibCheck": true,
-    "allowJs": true,
-    "incremental": true
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+		"noEmit": true,
+		"skipLibCheck": true,
+		"allowJs": true,
+		"incremental": true
+	},
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+	"exclude": ["node_modules"]
 }

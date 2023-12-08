@@ -1,4 +1,4 @@
 {
-  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
-  "words": ["iframes", "signup", "tailwindcss", "tanstack"]
+	"$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+	"words": ["iframes", "signup", "tailwindcss", "tanstack"]
 }
