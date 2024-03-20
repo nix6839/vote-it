@@ -15,11 +15,9 @@ export default function PollCard(props: PollCardProps) {
 	return (
 		<Link href={`/polls/${poll.id}`}>
 			<article>
-				{poll.picture === null ? (
+				{poll.picture === null ?
 					<LogoIcon width="48" height="48" />
-				) : (
-					<Image src={poll.picture} alt="썸네일" aria-hidden="true" />
-				)}
+				:	<Image src={poll.picture} alt="썸네일" aria-hidden="true" />}
 				<p>{poll.subject}</p>
 				<p>참여인원 {poll.participatedCount}명</p>
 				<p>
