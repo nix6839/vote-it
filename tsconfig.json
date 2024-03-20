@@ -18,7 +18,7 @@
 		"baseUrl": "./",
 		"paths": {
 			"@/*": ["./src/*"],
-			"@tests/*": ["./tests/*"],
+			"@tests/*": ["./tests/*"]
 		},
 
 		"jsx": "preserve",
@@ -26,8 +26,8 @@
 		"noEmit": true,
 		"skipLibCheck": true,
 		"allowJs": true,
-		"incremental": true,
+		"incremental": true
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-	"exclude": ["node_modules"],
+	"exclude": ["node_modules"]
 }
